@@ -9,6 +9,8 @@ import { eq } from "drizzle-orm";
 export async function clerkWebhookHandler(req: Request, res: Response) {
    const env = getEnv()
 
+   console.log('clerk handler')
+
    try {
       if (!env.CLERK_WEBHOOK_SECRET) {
          res.status(503).send('Webhooks secret is not provided')
@@ -17,16 +19,20 @@ export async function clerkWebhookHandler(req: Request, res: Response) {
 
       const payload = req.body instanceof Buffer ? req.body.toString('utf8') : String(req.body);
 
-      const request = new Request('http://internal/webhook/clerk', {
+      const request = new globalThis.Request('http://internal/webhook/clerk', {
          method: 'POST',
          headers: new Headers(req.headers as HeadersInit),
          body: payload,
       });
 
+      console.log(request.body, 'request body');
+
       const evt = await verifyWebhook(request, { signingSecret: env.CLERK_WEBHOOK_SECRET });
+      console.log(evt, 'evt')
 
       if (evt.type === 'user.created' || evt.type === 'user.updated') {
          const u = evt.data;
+         console.log(u, 'user created')
 
          const email =
             u.email_addresses?.find((e) => e.id === u.primary_email_address_id)?.email_address ??
