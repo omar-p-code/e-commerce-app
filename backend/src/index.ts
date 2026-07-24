@@ -56,3 +56,5 @@ app.use(cors());
 // }
 
 app.listen(env.PORT, () => console.log('listening on port:', env.PORT))
+
+export default app
