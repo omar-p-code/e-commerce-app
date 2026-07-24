@@ -56,7 +56,8 @@ export async function clerkWebhookHandler(req: Request, res: Response) {
 
       if (evt.type === 'user.deleted') {
          const id = evt.data.id as string;
-         db.delete(users).where(eq(users.clerkUserId, id))
+         console.log('delete user')
+         await db.delete(users).where(eq(users.clerkUserId, id))
       }
 
       res.json({ ok: true })

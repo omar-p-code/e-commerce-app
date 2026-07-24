@@ -6,11 +6,11 @@ import cors from 'cors';
 
 import { clerkMiddleware } from '@clerk/express';
 import { clerkWebhookHandler } from './webhooks/clerk';
-import { getEnv } from './lib/env';
+// import { getEnv } from './lib/env';
 
 
 const app: Express = express();
-const env = getEnv();
+// const env = getEnv();
 
 const rawJson = express.raw({ type: 'application/json', limit: '1mb' })
 
