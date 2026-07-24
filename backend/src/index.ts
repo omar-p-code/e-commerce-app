@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import express from 'express'
+import express, { type Express } from 'express'
 import cors from 'cors';
 
 
@@ -9,7 +9,7 @@ import { clerkWebhookHandler } from './webhooks/clerk';
 import { getEnv } from './lib/env';
 
 
-const app = express();
+const app: Express = express();
 const env = getEnv();
 
 const rawJson = express.raw({ type: 'application/json', limit: '1mb' })
