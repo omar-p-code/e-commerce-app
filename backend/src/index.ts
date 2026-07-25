@@ -24,7 +24,7 @@ app.use((req, _, next) => {
 app.post("/webhooks/clerk", rawJson, async (req, res) => {
    console.log('clerk handler done')
    try {
-      await clerkWebhookHandler(req, res)
+      await clerkWebhookHandler(req, res);
    } catch (err) {
       console.log(err)
    }
@@ -35,6 +35,20 @@ app.use(express.json());
 app.use(cors());
 
 
+app.get('/health', (_req, res) => {
+   res.json({ ok: true })
+});
+
+import productRouter from './routes/productRouter';
+import meRouter from './routes/meRouter';
+import streamRouter from './routes/streamRouter';
+
+app.use('/api/me', meRouter);
+app.use('/api/products', productRouter);
+app.use('/api/stram', streamRouter);
+
+
+// todo: add error handler middleware
 
 // const publicDir = path.join(process.cwd(), 'public');
 // if (fs.existsSync(publicDir)) {
